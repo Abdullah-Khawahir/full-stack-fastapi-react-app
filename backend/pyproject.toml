@@ -1,0 +1,31 @@
+[project]
+name = "items-dashboard-app"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Abdullah Khawahir",email = "abdullah.khawahir@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard] (>=0.117.1,<0.118.0)",
+    "sqlalchemy (>=2.0.43,<3.0.0)",
+    "uvicorn (>=0.36.0,<0.37.0)",
+    "databases[sqlite] (>=0.9.0,<0.10.0)",
+    "alembic (>=1.16.5,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "items_dashboard_app", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "black (>=25.9.0,<26.0.0)",
+    "isort (>=6.0.1,<7.0.0)",
+    "flake8 (>=7.3.0,<8.0.0)",
+    "pytest (>=8.4.2,<9.0.0)"
+]
