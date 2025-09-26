@@ -11,14 +11,13 @@ Backend
 ```sh
 cd backend
 pip install -r ./requirements.txt
-uvicorn src.main:app --port 8000  # Important: Set the port to 8000 or update it in the frontend/package.json
+uvicorn src.main:app --port 8000
 ```
 
 Frontend
 ```sh
 cd frontend
 npm install
-npm run api-gen
 npm run dev
 ```
 
