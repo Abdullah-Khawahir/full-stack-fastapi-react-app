@@ -64,7 +64,7 @@ const ItemCard = ({ item }: props) => {
         )}
       </CardContent>
 
-      <CardFooter>
+      <CardFooter className="mt-auto">
         <div className="w-full flex justify-between">
           <p>${item.price}</p>
           <p>{item.quantity} Peices</p>
