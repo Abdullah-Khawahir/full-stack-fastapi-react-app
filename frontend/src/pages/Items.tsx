@@ -13,7 +13,7 @@ const Items = () => {
   const sensors = useSensors(useSensor(PointerSensor))
 
   useEffect(() => {
-    if (itemsQuery.data) {
+    if (itemsQuery.data && Array.isArray(itemsQuery.data)) {
       setItems([...itemsQuery.data].sort((a, b) => a.order - b.order))
     }
   }, [itemsQuery.data])

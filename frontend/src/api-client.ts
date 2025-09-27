@@ -144,6 +144,12 @@ export class ApiClient {
       });
     },
   };
+
+  stats = {
+    itemsStatsStatsItemsStatsGet: () => {
+      return this.Fetch<ItemStatsResponseDTO>("get", "/stats/items_stats", {});
+    },
+  };
 }
 
 export type Body_create_items__post = {
@@ -174,12 +180,29 @@ export type ItemResponseDTO = {
   order: number;
 };
 
+export type ItemStatsResponseDTO = {
+  avg_price: number;
+  count: number;
+  max_price: number;
+  min_price: number;
+  price_total: number;
+  total_price_to_item_title: TotalPricesTable[];
+  total_pieces: number;
+};
+
 export type ItemUpdateDTO = {
   title?: string | null;
   description?: string | null;
   quantity?: number | null;
   price?: number | null;
   order?: number | null;
+};
+
+export type TotalPricesTable = {
+  title: string;
+  total_price: number;
+  price: number;
+  quantity: number;
 };
 
 export type ValidationError = {

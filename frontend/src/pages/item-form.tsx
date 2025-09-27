@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import api from "../api"
 import type { Body_create_items__post } from "../api-client"
 import { Button } from "../components/ui/button"
+import { Calendar } from "../components/ui/calendar"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { BACKEND_URL } from "../Config"
 import { useItemById, useItemCreate, useItemUpdate } from "../hooks/itemQueries"
-import api from "../api"
+import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover"
+import { format } from "date-fns"
 
 const ItemForm = () => {
   const { item_id } = useParams()
@@ -19,6 +22,7 @@ const ItemForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
   const [preview, setPreview] = useState<string>("")
   const [isVideo, setIsVideo] = useState(false)
+  const [date, setDate] = useState(new Date())
   const [formObject, setFormObject] = useState({
     title: "",
     description: "",
@@ -91,7 +95,6 @@ const ItemForm = () => {
 
   return (
     <div className="flex w-full h-screen bg-gray-50">
-      {/* Left: form inputs */}
       <div className="flex-1 p-8 flex flex-col justify-start gap-6">
         <h1 className="text-3xl font-bold">{isEdit ? "Edit Item" : "Create Item"}</h1>
 
@@ -101,7 +104,6 @@ const ItemForm = () => {
             <Input
               id="title"
               type="text"
-              name="title"
               value={formObject.title}
               onChange={(e) => handleChange("title", e.target.value)}
               className="text-lg"
@@ -113,7 +115,6 @@ const ItemForm = () => {
             <Input
               id="description"
               type="text"
-              name="description"
               value={formObject.description}
               onChange={(e) => handleChange("description", e.target.value)}
               className="text-lg"
@@ -126,7 +127,6 @@ const ItemForm = () => {
               <Input
                 id="quantity"
                 type="number"
-                name="quantity"
                 value={formObject.quantity}
                 onChange={(e) => handleChange("quantity", parseInt(e.target.value) || 0)}
                 className="text-lg"
@@ -138,7 +138,6 @@ const ItemForm = () => {
               <Input
                 id="price"
                 type="number"
-                name="price"
                 value={formObject.price}
                 onChange={(e) => handleChange("price", parseFloat(e.target.value) || 0)}
                 className="text-lg"
@@ -146,31 +145,36 @@ const ItemForm = () => {
             </div>
           </div>
 
-          <div className="grid gap-1">
-            <Label htmlFor="order" className="text-lg font-medium">Order</Label>
-            <Input
-              id="order"
-              type="number"
-              name="order"
-              value={formObject.order}
-              onChange={(e) => handleChange("order", parseInt(e.target.value) || 0)}
-              className="text-lg"
-            />
+          <div className="grid gap-1 w-1/2">
+            <Label htmlFor="date" className="text-lg font-medium">Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Input
+                  readOnly
+                  value={date ? format(date, "MM-dd-yyyy") : ""}
+                  placeholder="Select a date"
+                  className="cursor-pointer text-left"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={(selectedDate) => setDate(selectedDate || new Date())}
+                  className="rounded-2xl"
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
-        {/* Submit Button */}
         <div className="mt-4">
-          <Button
-            variant="default"
-            size="lg"
-            onClick={isEdit ? handleUpdate : handleCreate}
-          >
+          <Button variant="default" size="lg" onClick={isEdit ? handleUpdate : handleCreate}>
             {isEdit ? "Update Item" : "Create Item"}
           </Button>
         </div>
 
-        {/* Drag & Drop Box */}
+        {/* File upload section */}
         <div className="mt-8">
           <Label htmlFor="media" className="text-lg font-medium mb-2">Upload Media</Label>
           <div
@@ -178,7 +182,7 @@ const ItemForm = () => {
             onClick={() => document.getElementById("media")?.click()}
           >
             <p className="text-gray-500">Drag & drop an image or click to select</p>
-            <p className="text-gray-500">expected images and vidos </p>
+            <p className="text-gray-500">Expected images and videos</p>
             <input
               type="file"
               id="media"
@@ -190,22 +194,14 @@ const ItemForm = () => {
         </div>
       </div>
 
-      {/* Right: image preview */}
+      {/* Media preview */}
       <div className="w-1/3 p-8 flex flex-col items-center justify-start gap-4 bg-white shadow-inner">
         <Label className="text-lg font-medium">Current / Selected Media</Label>
         {preview ? (
           isVideo ? (
-            <video
-              src={preview}
-              controls
-              className="w-full max-h-[70vh] object-contain rounded"
-            />
+            <video src={preview} controls className="w-full max-h-[70vh] object-contain rounded" />
           ) : (
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-full max-h-[70vh] object-contain rounded"
-            />
+            <img src={preview} alt="Preview" className="w-full max-h-[70vh] object-contain rounded" />
           )
         ) : (
           <div className="w-full h-80 flex items-center justify-center border border-gray-300 rounded text-gray-400">

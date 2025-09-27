@@ -1,4 +1,4 @@
-import { Home, LayoutDashboard } from "lucide-react"
+import { Home, LayoutDashboard, Plus } from "lucide-react"
 import { Link } from "react-router-dom"
 
 import {
@@ -12,7 +12,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-// Menu items.
 const items = [
   {
     title: "Home",
@@ -20,14 +19,14 @@ const items = [
     icon: Home,
   },
   {
-    title: "Items Dashboard",
-    url: "./items",
+    title: "Items",
+    url: "/items",
     icon: LayoutDashboard,
   },
   {
     title: "Add Item",
-    url: "./item-form/",
-    icon: LayoutDashboard,
+    url: "/item-form/",
+    icon: Plus,
   },
 ]
 
@@ -36,7 +35,7 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel></SidebarGroupLabel>
+          <SidebarGroupLabel>Links</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

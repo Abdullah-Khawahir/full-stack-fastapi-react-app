@@ -4,6 +4,13 @@ import type { Body_create_items__post, ItemUpdateDTO } from "../api-client";
 
 const itemsKey = "items"
 
+export function useItemsStats() {
+  return useQuery({
+    queryKey: [itemsKey],
+    queryFn: () => api.stats.itemsStatsStatsItemsStatsGet()
+  })
+}
+
 export function useItemsAll() {
   return useQuery({
     queryKey: [itemsKey],

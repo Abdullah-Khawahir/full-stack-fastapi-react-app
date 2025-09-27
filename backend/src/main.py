@@ -1,5 +1,5 @@
 from src.database import Base, engine
-from src.endpoints import item_route, media_route
+from src.endpoints import item_route, media_route, stats_route
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -15,6 +15,7 @@ app.add_middleware(
 
 app.include_router(item_route.router)
 app.include_router(media_route.router)
+app.include_router(stats_route.router)
 
 
 @app.on_event("startup")
