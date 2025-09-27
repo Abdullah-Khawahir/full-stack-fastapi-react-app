@@ -35,7 +35,7 @@ const Items = () => {
         itemUpdate.mutate(
           {
             item_id: item.id,
-            update_item: { item_update: { order: item.order }  }
+            newItem: { order: item.order }
           },
           { onError: () => setItems(prev) }
         )
