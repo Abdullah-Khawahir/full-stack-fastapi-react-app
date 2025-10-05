@@ -68,7 +68,6 @@ const ItemCard = ({ item }: props) => {
         <div className="w-full flex justify-between">
           <p>${item.price}</p>
           <p>{item.quantity} Peices</p>
-          <p>{item.order} </p>
         </div>
       </CardFooter>
 
